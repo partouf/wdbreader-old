@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wdbreader", "wdbreader.vcproj", "{A67104B7-5A50-42C1-8947-BC69F2FDF3DE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Groundfloor", "C:\Users\patrick\Documents\Visual Studio 2008\Projects\Groundfloor\Groundfloor\Groundfloor.vcproj", "{441D0E7A-B954-4260-9A8A-6912090EADC1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MySQLBooks", "C:\Users\patrick\Documents\Visual Studio 2008\Projects\Groundfloor\MySQLBooks\MySQLBooks.vcproj", "{82D08358-BC5C-4EF7-8601-171290600622}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A67104B7-5A50-42C1-8947-BC69F2FDF3DE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A67104B7-5A50-42C1-8947-BC69F2FDF3DE}.Debug|Win32.Build.0 = Debug|Win32
+		{A67104B7-5A50-42C1-8947-BC69F2FDF3DE}.Release|Win32.ActiveCfg = Release|Win32
+		{A67104B7-5A50-42C1-8947-BC69F2FDF3DE}.Release|Win32.Build.0 = Release|Win32
+		{441D0E7A-B954-4260-9A8A-6912090EADC1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{441D0E7A-B954-4260-9A8A-6912090EADC1}.Debug|Win32.Build.0 = Debug|Win32
+		{441D0E7A-B954-4260-9A8A-6912090EADC1}.Release|Win32.ActiveCfg = Release|Win32
+		{441D0E7A-B954-4260-9A8A-6912090EADC1}.Release|Win32.Build.0 = Release|Win32
+		{82D08358-BC5C-4EF7-8601-171290600622}.Debug|Win32.ActiveCfg = Debug|Win32
+		{82D08358-BC5C-4EF7-8601-171290600622}.Debug|Win32.Build.0 = Debug|Win32
+		{82D08358-BC5C-4EF7-8601-171290600622}.Release|Win32.ActiveCfg = Release|Win32
+		{82D08358-BC5C-4EF7-8601-171290600622}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
