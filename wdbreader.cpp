@@ -1311,14 +1311,14 @@ int main(int argc, char* argv[]) {
    if ( initGroundfloor() ) {
       initGlobalGarbageCollector();
       try {
-         conn.host.set( "critter.inaspro.nl" );
+         conn.host.set( "127.0.0.1" );
          conn.port.set( 3306 );
-         conn.username.set( "root" );
+         conn.username.set( "lfs" );
          conn.password.set( "" );
          if ( !conn.connect() ) {
             throw QuitException("Can't connect to database");
          }
-         conn.selectDatabase("murphy");
+         conn.selectDatabase("lfs");
 
          //loadEnchantmentDbc(&conn);
          //throw QuitException("etc");
@@ -1327,15 +1327,15 @@ int main(int argc, char* argv[]) {
          //loadSpellDbc(&conn);
          //throw QuitException("Done");
 
-         sFilename = new TGFString("D:\\itemcache.wdb");
-         /*if ( argc == 2 ) {
+         sFilename = new TGFString("");
+         if ( argc == 2 ) {
             sFilename->setValue_ansi( argv[1] );
             if ( !GFFileExists( sFilename ) ) {
                throw QuitException("File doesn't exist");
             }
          } else {
             throw QuitException("Usage: wdbreader.exe [path-to-itemcache.wdb]");
-         }*/
+         }
 
          TGFFileCommunicator c;
          c.filename.set( sFilename->getValue() );
