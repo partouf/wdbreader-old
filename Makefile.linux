@@ -1,0 +1,31 @@
+# Project: WDBreader
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++
+CC   = gcc
+OBJ  = wdbreader.o $(RES)
+LINKOBJ  = wdbreader.o $(RES)
+LIBS =  -L"../Groundfloor/trunk" -L"../MySQLBooks/trunk" -lMySQLBooks  -lGroundfloor -lpthread -lrt -lmysqlclient -lssl -lcrypto -lz
+CXXINCS =  -I"../Groundfloor/trunk/include" -I"../MySQLBooks/trunk/include"
+BIN  = wdbreader
+CXXFLAGS = $(CXXINCS)   -ansi -fexceptions $(ARCHS)
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before wdbreader all-after
+
+all-before:
+
+all-after:
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+clean-custom:
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "wdbreader" $(LIBS)
+
+wdbreader.o: wdbreader.cpp
+	$(CPP) -c wdbreader.cpp -o wdbreader.o $(CXXFLAGS)
