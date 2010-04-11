@@ -19,6 +19,7 @@
 
 #include <stdexcept>
 
+#define DWORD unsigned int
 
 // type 42: "Equip: Increases damage done by magical spells and effects by up to 25."
 
