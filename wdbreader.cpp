@@ -74,6 +74,7 @@ public:
    DWORD extStat3;
    TGFString name;
    TGFString description;
+   int stackamount;
 
    CSimpleSpell() : TGFFreeable() {
    }
@@ -94,6 +95,8 @@ public:
       rec->newValue()->setInteger(aura3);
       rec->newValue()->setInteger(extStat3);
       rec->newValue()->setInteger(value3);
+
+      rec->newValue()->setInteger(stackamount);
    }
 
    void fillParams( TRemoteSQL *qry ) {
@@ -112,6 +115,8 @@ public:
       qry->findOrAddParam("stat3")->setInteger(aura3);
       qry->findOrAddParam("ext3")->setInteger(extStat3);
       qry->findOrAddParam("val3")->setInteger(value3);
+
+      qry->findOrAddParam("stackamount")->setInteger(stackamount);
    }
 };
 
@@ -529,6 +534,8 @@ protected:
    int fldValue2;
    int fldValue3;
 
+   int fldStack1;
+
    int fldName;
    int fldDescription;
 
@@ -540,6 +547,7 @@ public:
       this->fldName = 0;
       this->fldDescription = 0;
       this->fldExtStat1 = 0;
+      this->fldStack1 = 0;
    }
    ~CSpellDbc() {
    }
@@ -590,6 +598,17 @@ public:
          }
       } else if ( field[0] == 57435 ) {
          field[0] = 57435;
+      } else if ( field[0] == 68251 ) {
+         field[0] = 68251; 
+      } else if ( field[0] == 71396 ) {
+         field[0] = 71396;
+         for ( unsigned int i = 1; i < fieldcount; i++ ) {
+            DWORD v = field[i];
+            if ( (this->fldStack1 == 0) && (v == 20) ) {
+               this->fldStack1 = i;
+            }
+         }
+         
       }
    }
 
@@ -610,6 +629,7 @@ public:
       spell->aura2 = field[this->fldAura2];
       spell->aura3 = field[this->fldAura3];
       spell->name.setValue_ansi( stringblock->getPointer(field[this->fldName]) );
+      spell->stackamount = field[this->fldStack1];
       if ( field[this->fldDescription] != 0 ) {
          spell->description.setValue_ansi( stringblock->getPointer(field[this->fldDescription]) );
       }
@@ -618,7 +638,7 @@ public:
    }
 
    bool isCalibrated() {
-      return ( (fldValue1 != 0) && (fldValueBase1 != 0) && (fldAura1 != 0) && (fldDescription != 0) && (fldExtStat1 != 0) );
+      return ( (fldValue1 != 0) && (fldValueBase1 != 0) && (fldAura1 != 0) && (fldDescription != 0) && (fldExtStat1 != 0) && (fldStack1 != 0) );
    }
 };
 
@@ -991,7 +1011,7 @@ unsigned int readItem( TRemoteSquirrelConnection *conn, TGFString *data, unsigne
       }
 
       if ( !bASpellStatSet ) {
-         printf("Item %d uses old-style stats, add through wow-head\n", ih.itemid);
+//         printf("Item %d uses old-style stats, add through wow-head\n", ih.itemid);
 //         return newindex;
       }
    }
@@ -1070,7 +1090,7 @@ unsigned int readItem( TRemoteSquirrelConnection *conn, TGFString *data, unsigne
 }
 
 void loadSpellDbc( TRemoteSquirrelConnection *conn ) {
-   TGFString sFilename("D:/WoWDBCFiles/DBFilesClient/Spell.dbc");
+   TGFString sFilename("Spell.dbc");
 
    TGFString *data = new TGFString();
 
@@ -1126,7 +1146,7 @@ void loadSpellDbc( TRemoteSquirrelConnection *conn ) {
    stringblock.setValue( data->getPointer( iStrOffset ), data->getLength() - iStrOffset );
 
    TGFFileWriter *fw = new TGFFileWriter();
-   fw->open("D:/spell.dbc/DBFilesClient/strings.txt");
+   fw->open("strings.txt");
    fw->add( &stringblock );
    fw->setStopWhenEmpty(true);
    fw->start();
@@ -1134,10 +1154,10 @@ void loadSpellDbc( TRemoteSquirrelConnection *conn ) {
    delete fw;
 
    TGFString sqlInsert("insert into spell \
-                       ( id, name, description, stat1, ext1, val1, stat2, ext2, val2, stat3, ext3, val3) values \
-                       (:id,:name,:description,:stat1,:ext1,:val1,:stat2,:ext2,:val2,:stat3,:ext3,:val3)");
+                       ( id, name, description, stat1, ext1, val1, stat2, ext2, val2, stat3, ext3, val3, stackamount) values \
+                       (:id,:name,:description,:stat1,:ext1,:val1,:stat2,:ext2,:val2,:stat3,:ext3,:val3,:stackamount)");
    TGFString sqlUpdate("update spell set \
-                       name=:name, description=:description, stat1=:stat1, ext1=:ext1, val1=:val1, stat2=:stat2, ext2=:ext2, val2=:val2, stat3=:stat3, ext3=:ext3, val3=:val3 \
+                       name=:name, description=:description, stat1=:stat1, ext1=:ext1, val1=:val1, stat2=:stat2, ext2=:ext2, val2=:val2, stat3=:stat3, ext3=:ext3, val3=:val3, stackamount=:stackamount \
                        where id=:id");
    TMySQLSquirrel qryInsert(conn);
 
@@ -1188,7 +1208,7 @@ void loadSpellDbc( TRemoteSquirrelConnection *conn ) {
 
 
 void loadEnchantmentDbc( TRemoteSquirrelConnection *conn ) {
-   TGFString sFilename("D:/WoWDBCFiles/DBFilesClient/SpellItemEnchantment.dbc");
+   TGFString sFilename("SpellItemEnchantment.dbc");
 
    TGFString *data = new TGFString();
 
@@ -1229,7 +1249,7 @@ void loadEnchantmentDbc( TRemoteSquirrelConnection *conn ) {
    stringblock.setValue( data->getPointer( iStrOffset ), data->getLength() - iStrOffset );
 
    TGFFileWriter *fw = new TGFFileWriter();
-   fw->open("D:/enchants.txt");
+   fw->open("enchants.txt");
    fw->add( &stringblock );
    fw->setStopWhenEmpty(true);
    fw->start();
@@ -1320,15 +1340,16 @@ int main(int argc, char* argv[]) {
          }
          conn.selectDatabase("lfs");
 
-         //loadEnchantmentDbc(&conn);
-         //throw QuitException("etc");
+         loadEnchantmentDbc(&conn);
+         throw QuitException("etc");
 
          // hoeft maar 1 keer (per patch), en is al ingelezen
          //loadSpellDbc(&conn);
          //throw QuitException("Done");
 
-         sFilename = new TGFString("");
-         if ( argc == 2 ) {
+         sFilename = new TGFString("itemcache.wdb");
+/*
+if ( argc == 2 ) {
             sFilename->setValue_ansi( argv[1] );
             if ( !GFFileExists( sFilename ) ) {
                throw QuitException("File doesn't exist");
@@ -1336,7 +1357,7 @@ int main(int argc, char* argv[]) {
          } else {
             throw QuitException("Usage: wdbreader.exe [path-to-itemcache.wdb]");
          }
-
+*/
          TGFFileCommunicator c;
          c.filename.set( sFilename->getValue() );
          c.connect();
