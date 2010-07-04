@@ -1366,7 +1366,7 @@ int main(int argc, char* argv[]) {
             throw QuitException("Done with 3");
          }
 
-         sFilename = new TGFString("d:/itemcache.wdb");
+         sFilename = new TGFString("itemcache.wdb");
          TGFFileCommunicator c;
          c.filename.set( sFilename->getValue() );
          c.connect();
