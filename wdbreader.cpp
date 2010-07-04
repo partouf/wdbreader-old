@@ -1332,14 +1332,17 @@ int main(int argc, char* argv[]) {
    if ( initGroundfloor() ) {
       initGlobalGarbageCollector();
       try {
-         conn.host.set( "127.0.0.1" );
+         //conn.host.set( "127.0.0.1" );
+         conn.host.set( "192.168.0.10" );
          conn.port.set( 3306 );
-         conn.username.set( "lfs" );
+         //conn.username.set( "lfs" );
+         conn.username.set( "root" );
          conn.password.set( "" );
          if ( !conn.connect() ) {
             throw QuitException("Can't connect to database");
          }
-         conn.selectDatabase("lfs");
+         //conn.selectDatabase("lfs");
+         conn.selectDatabase("murphy");
 
          TGFString sArg1("0");
          if ( argc == 2 ) {
@@ -1356,7 +1359,14 @@ int main(int argc, char* argv[]) {
             throw QuitException("Done with 2");
          }
 
-         sFilename = new TGFString("itemcache.wdb");
+         if ( sArg1.match_ansi( "3" ) ) {
+            printf( "Sizeof uns int: %d\n", sizeof(unsigned int) );
+            printf( "Sizeof uns long: %d\n", sizeof(unsigned long) );
+            printf( "Sizeof float: %d\n", sizeof(float) );
+            throw QuitException("Done with 3");
+         }
+
+         sFilename = new TGFString("d:/itemcache.wdb");
          TGFFileCommunicator c;
          c.filename.set( sFilename->getValue() );
          c.connect();
