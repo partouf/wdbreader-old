@@ -1124,7 +1124,7 @@ void loadSpellDbc( TRemoteSquirrelConnection *conn ) {
    
    printf( "%s\n", sig.getValue() );
    if ( !sig.match_ansi("WDBC") ) {
-      printf( "Not a valid itemcache WDB-file\n" );
+      printf( "Not a valid spell WDB-file\n" );
       return;
    }
 
@@ -1241,7 +1241,7 @@ void loadEnchantmentDbc( TRemoteSquirrelConnection *conn ) {
    
    printf( "%s\n", sig.getValue() );
    if ( !sig.match_ansi("WDBC") ) {
-      printf( "Not a valid itemcache WDB-file\n" );
+      printf( "Not a valid enchantment WDB-file\n" );
       return;
    }
 
@@ -1341,24 +1341,22 @@ int main(int argc, char* argv[]) {
          }
          conn.selectDatabase("lfs");
 
-         loadEnchantmentDbc(&conn);
-         throw QuitException("etc");
+         TGFString sArg1("0");
+         if ( argc == 2 ) {
+            sArg1.setValue_ansi( argv[1] );
+         }
 
-         // hoeft maar 1 keer (per patch), en is al ingelezen
-         //loadSpellDbc(&conn);
-         //throw QuitException("Done");
+         if ( sArg1.match_ansi( "1" ) ) {
+            loadEnchantmentDbc(&conn);
+            throw QuitException("Done with 1");
+         }
+
+         if ( sArg1.match_ansi( "2" ) ) {
+            loadSpellDbc(&conn);
+            throw QuitException("Done with 2");
+         }
 
          sFilename = new TGFString("itemcache.wdb");
-/*
-if ( argc == 2 ) {
-            sFilename->setValue_ansi( argv[1] );
-            if ( !GFFileExists( sFilename ) ) {
-               throw QuitException("File doesn't exist");
-            }
-         } else {
-            throw QuitException("Usage: wdbreader.exe [path-to-itemcache.wdb]");
-         }
-*/
          TGFFileCommunicator c;
          c.filename.set( sFilename->getValue() );
          c.connect();
