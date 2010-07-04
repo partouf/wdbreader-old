@@ -1332,8 +1332,8 @@ int main(int argc, char* argv[]) {
    if ( initGroundfloor() ) {
       initGlobalGarbageCollector();
       try {
-         //conn.host.set( "127.0.0.1" );
-         conn.host.set( "192.168.0.10" );
+         conn.host.set( "127.0.0.1" );
+         //conn.host.set( "192.168.0.10" );
          conn.port.set( 3306 );
          //conn.username.set( "lfs" );
          conn.username.set( "root" );
