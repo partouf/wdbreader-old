@@ -268,31 +268,31 @@ struct itemrest1 {
    DWORD weaponDelay;
    DWORD ammoType;
    float rangeModifier;
-   DWORD spell1ID;
+   int spell1ID;
    DWORD spell1TriggerID;
    DWORD spell1Charges;
    DWORD spell1Cooldown;
    DWORD spell1CategoryID;
    DWORD spell1CategoryCooldown;
-   DWORD spell2ID;
+   int spell2ID;
    DWORD spell2TriggerID;
    DWORD spell2Charges;
    DWORD spell2Cooldown;
    DWORD spell2CategoryID;
    DWORD spell2CategoryCooldown;
-   DWORD spell3ID;
+   int spell3ID;
    DWORD spell3TriggerID;
    DWORD spell3Charges;
    DWORD spell3Cooldown;
    DWORD spell3CategoryID;
    DWORD spell3CategoryCooldown;
-   DWORD spell4ID;
+   int spell4ID;
    DWORD spell4TriggerID;
    DWORD spell4Charges;
    DWORD spell4Cooldown;
    DWORD spell4CategoryID;
    DWORD spell4CategoryCooldown;
-   DWORD spell5ID;
+   int spell5ID;
    DWORD spell5TriggerID;
    DWORD spell5Charges;
    DWORD spell5Cooldown;
@@ -881,8 +881,8 @@ unsigned int readItem( TRemoteSquirrelConnection *conn, TGFString *data, unsigne
          delete rec;
          qrySelectItem.close();
 
-         if ( ih.itemid == 40111 ) {
-            //printf("40111\n");
+         if ( ih.itemid == 49623 ) {
+            printf("49623\n");
          } else {
             //return newindex;
          }
@@ -958,9 +958,9 @@ unsigned int readItem( TRemoteSquirrelConnection *conn, TGFString *data, unsigne
    qryInsertStats.findOrAddParam("armor")->setInteger( ir1.resistPhysical );
 
    bool bASpellStatSet = false;
-   if ( (ir1.spell1ID != 0) || (ir1.spell2ID != 0) || (ir1.spell3ID != 0) || (ir1.spell4ID != 0) || (ir1.spell5ID != 0) ) {
+   if ( (ir1.spell1ID > 0) || (ir1.spell2ID > 0) || (ir1.spell3ID > 0) || (ir1.spell4ID > 0) || (ir1.spell5ID > 0) ) {
       CDBSpell *spell;
-      if ( ir1.spell1ID != 0 ) {
+      if ( ir1.spell1ID > 0 ) {
          if ( ir1.spell1TriggerID == 1 ) {
             spell = new CDBSpell( conn, ir1.spell1ID );
             if ( spell->spellfound ) {
@@ -970,7 +970,7 @@ unsigned int readItem( TRemoteSquirrelConnection *conn, TGFString *data, unsigne
             delete spell;
          }
       }
-      if ( ir1.spell2ID != 0 ) {
+      if ( ir1.spell2ID > 0 ) {
          if ( ir1.spell2TriggerID == 1 ) {
             spell = new CDBSpell( conn, ir1.spell2ID );
             if ( spell->spellfound ) {
@@ -980,7 +980,7 @@ unsigned int readItem( TRemoteSquirrelConnection *conn, TGFString *data, unsigne
             delete spell;
          }
       }
-      if ( ir1.spell3ID != 0 ) {
+      if ( ir1.spell3ID > 0 ) {
          if ( ir1.spell3TriggerID == 1 ) {
             spell = new CDBSpell( conn, ir1.spell3ID );
             if ( spell->spellfound ) {
@@ -990,7 +990,7 @@ unsigned int readItem( TRemoteSquirrelConnection *conn, TGFString *data, unsigne
             delete spell;
          }
       }
-      if ( ir1.spell4ID != 0 ) {
+      if ( ir1.spell4ID > 0 ) {
          if ( ir1.spell4TriggerID == 1 ) {
             spell = new CDBSpell( conn, ir1.spell4ID );
             if ( spell->spellfound ) {
@@ -1000,7 +1000,7 @@ unsigned int readItem( TRemoteSquirrelConnection *conn, TGFString *data, unsigne
             delete spell;
          }
       }
-      if ( ir1.spell5ID != 0 ) {
+      if ( ir1.spell5ID > 0 ) {
          if ( ir1.spell5TriggerID == 1 ) {
             spell = new CDBSpell( conn, ir1.spell5ID );
             if ( spell->spellfound ) {
@@ -1335,14 +1335,14 @@ int main(int argc, char* argv[]) {
          conn.host.set( "127.0.0.1" );
          //conn.host.set( "192.168.0.10" );
          conn.port.set( 3306 );
-         //conn.username.set( "lfs" );
-         conn.username.set( "root" );
+         conn.username.set( "lfs" );
+         //conn.username.set( "root" );
          conn.password.set( "" );
          if ( !conn.connect() ) {
             throw QuitException("Can't connect to database");
          }
-         //conn.selectDatabase("lfs");
-         conn.selectDatabase("murphy");
+         conn.selectDatabase("lfs");
+         //conn.selectDatabase("murphy");
 
          TGFString sArg1("0");
          if ( argc == 2 ) {
